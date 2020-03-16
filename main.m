@@ -31,12 +31,10 @@ while numel(a(a>0)) ~= 81
     end                                            
     
                                                 % 空格位置: (pos_row, pos_col)
-    for index = 1 : 9                           % 有成功的話，list都會變大
+    for index = stuck_value + 1 : 9                           % 有成功的話，list都會變大
         b = a;                                  % 紀錄state
         n = index;                              % 設定選擇
-        if n == stuck_value
-            n = n + 1;
-        end
+        
         b(pos_row , pos_col) = n;               % 放入數字
         if (row_detect(b) == true && ...
             column_detect(b) == true && ...
@@ -51,16 +49,15 @@ while numel(a(a>0)) ~= 81
         t_f = false;
     end
     
-    if t_f ~= true      %  不等於 >> 新增數字失敗
+    if t_f == false         % 等於 >> 新增數字失敗
         
         r = blank_list( length(blank_list) , 1 );
         c = blank_list( length(blank_list) , 2 );
-        stuck_value = a(r,c)
+        stuck_value = a(r,c);
         a( r,c ) = 0;
         blank_list( length(blank_list) , : )  = [];
         num_list( length(num_list) , : ) = [];
-        a
-        blank_list
+ 
     else
         stuck_value = 0;
     end
@@ -70,21 +67,7 @@ while numel(a(a>0)) ~= 81
 
 
 end
+disp("Answer is :");
+disp(a)
 
 
-% 
-%     while index ~= 1                            % 有成功的話，list都會變大
-%         b = a                                  % 紀錄state
-%         n = randi(9);                           % 設定選擇
-%         b(pos_row , pos_col) = n;               % 放入數字
-%         if (row_detect(b) == true && column_detect(b) == true && grid_detect(b)   == true)
-%             num_list = [num_list ; n];
-%             blank_list = [blank_list ; pos_row , pos_col];
-%             a = b;
-%             break
-%         end
-%         itr = [itr , n];
-%         if length( unique(itr) ) == 10
-%             index = 1;
-%         end
-%     end
